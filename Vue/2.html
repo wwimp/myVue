@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title></title>
+
+		<style type="text/css">
+			[v-cloak] {
+				display: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<p v-cloak>{{msg}}pppppppppppp</p>
+			<h4 v-text="msg">h1h1h1h1h1h1</h4>
+			<div v-cloak>{{msg2}}</div>
+			<div v-text="msg2"></div>
+			<div v-html="msg2"></div>
+			<input type="button" value="按钮1" title="按钮" />
+			<input type="button" value="按钮2" v-bind:title="mytitle+'123123'" />
+			<input type="button" value="按钮3" v-bind:title="mytitle+'123123'" v-on:click="show" />
+		</div>
+		<!-- v-bind: 是 Vue中，提供的用于绑定属性的指令 -->
+		<!-- <input type="button" value="按钮" v-bind:title="mytitle + '123'"> -->
+		<!-- 注意： v-bind: 指令可以被简写为 :要绑定的属性 -->
+		<!-- v-bind 中，可以写合法的JS表达式 -->
+
+		<!-- Vue 中提供了 v-on: 事件绑定机制 -->
+		<!-- <input type="button" value="按钮" :title="mytitle + '123'" v-on:click="alert('hello')"> -->
+
+
+		<!-- 1. 如何定义一个基本的Vue代码结构 -->
+		<!-- 2. 插值表达式 和  v-text   -->
+		<!-- 3. v-cloak -->
+		<!-- 4. v-html -->
+		<!-- 5. v-bind   Vue提供的属性绑定机制   缩写是 : -->
+		<!-- 6. v-on     Vue提供的事件绑定机制   缩写是 @ -->
+		<script src="./lib/vue-2.4.0.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			var vm = new Vue({
+				el: '#app',
+				data: {
+					msg: '123',
+					msg2: '<h1>1111111111</h1>',
+					mytitle: '我是一个title'
+				},
+				methods: { // 这个 methods属性中定义了当前Vue实例所有可用的方法
+					show: function() {
+						alert('Hello')
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

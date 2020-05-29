@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title></title>
+		<script src="./lib/vue-2.4.0.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			body {
+				background-color: #008B8B;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<!-- <p>{{list[0]}}</p>
+			<p>{{list[1]}}</p>
+			<p>{{list[2]}}</p>
+			<p>{{list[3]}}</p>
+			<p>{{list[4]}}</p> -->
+			<!-- <p v-for="item in list">{{item}}</p> -->
+			<!-- <p v-for="(item,i) in list">{{i}}--------{{item}}</p> -->
+			<!-- <p v-for="item in list2">{{item}}</p>
+			<p v-for="item in list2">{{item.id}}</p>
+			<p v-for="(item,i) in list2">{{i}}--------{{item.id}}</p>
+			<p v-for="(item,i) in list2">{{i}}--------{{item.id}}--------{{item.name}}</p> -->
+			<!-- <p v-for="(item,i,n) in user">{{i}}-----{{item}}-----{{n}}</p> -->
+			<!-- count的值从1开始 -->
+			<!-- <p v-for="count in 10">{{count}}</p> -->
+			<div>
+				<label>Id:
+					<input type="text" v-model="id">
+				</label>
+				<label>Name:
+					<input type="text" v-model="name">
+				</label>
+				<input type="button" value="添加1" @click="add1">
+				<input type="button" value="添加2" @click="add2">
+			</div>
+			<!-- 注意： v-for 循环的时候，key 属性只能使用 number获取string -->
+			<!-- 注意： key 在使用的时候，必须使用 v-bind 属性绑定的形式，指定 key 的值 -->
+			<!-- 在组件中，使用v-for循环的时候，或者在一些特殊情况中，如果 v-for 有问题，必须 在使用 v-for 的同时，指定 唯一的 字符串/数字 类型 :key 值 -->
+			<p v-for="(item,key) in list2" :key="item.id">
+				<input type="checkbox">{{item.id}} --- {{item.name}} --- {{key}}
+			</p>
+		</div>
+
+		<script type="text/javascript">
+			var vm = new Vue({
+				el: '#app',
+				data: {
+					id: this.id,
+					name: this.name,
+					list: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+					list2: [{
+							id: 111,
+							name: '111'
+						},
+						{
+							id: 222,
+							name: '222'
+						},
+						{
+							id: 333,
+							name: '333'
+						},
+						{
+							id: 444,
+							name: '444'
+						},
+					],
+					user: {
+						id: 1,
+						name: 123,
+						sex: 'man'
+					}
+				},
+				methods: {
+					add1() {
+						this.list2.push({
+							id: this.id,
+							name: this.name
+						})
+					},
+					add2() {
+						this.list2.unshift({
+							id: this.id,
+							name: this.name
+						})
+					}
+				}
+			});
+		</script>
+	</body>
+</html>

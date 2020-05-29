@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title></title>
+		<script src="./lib/vue-2.4.0.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			body {
+				background-color: #008B8B;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<input type="text" v-model="n1" />
+			<select v-model="opt">
+				<option value="+">+</option>
+				<option value="-">-</option>
+				<option value="*">*</option>
+				<option value="/">/</option>
+			</select>
+			<input type="text" v-model="n2" />
+			<input type="button" value="=" @click="btn">
+			<input type="text" v-model="n3" />
+		</div>
+
+		<script type="text/javascript">
+			var vm = new Vue({
+				el: '#app',
+				data: {
+					n1: '0',
+					n2: '0',
+					n3: '0',
+					opt: '+'
+				},
+				methods: {
+					btn() {
+						switch (this.opt) {
+							case '+':
+								this.n3 = parseInt(this.n1) + parseInt(this.n2);
+								break;
+							case '-':
+								this.n3 = parseInt(this.n1) - parseInt(this.n2);
+								break;
+							case '*':
+								this.n3 = parseInt(this.n1) * parseInt(this.n2);
+								break;
+							case '/':
+								this.n3 = parseInt(this.n1) / parseInt(this.n2);
+								break;
+						}
+						// var codeStr = 'parseInt(this.n1) ' + this.opt + ' parseInt(this.n2)';
+						// this.n3 = eval(codeStr);
+					}
+				}
+			});
+		</script>
+	</body>
+</html>

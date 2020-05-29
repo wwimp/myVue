@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Document</title>
+		<style>
+			body {
+				background-color: rgba(9, 240, 47, 0.226);
+			}
+		</style>
+		<script src="./lib/vue-2.4.0.js"></script>
+	</head>
+
+	<body>
+		hello world!
+		<div id="app"> // 将来 new 的Vue实例，会控制这个元素中的所有内容
+			<p>
+				{{msg}}
+			</p>
+		</div>
+		<script>
+			// 创建一个Vue实例
+			var vm = new Vue({
+				el: '#app', // 这里是new出来的这个Vue实例要控制的区域
+				data: {
+					msg: '欢迎！', // 通过Vue 指令，把数据渲染到页面上去，无需再手动操作操作DOM元素
+				}
+			});
+		</script>
+	</body>
+
+</html>

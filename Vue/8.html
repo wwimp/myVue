@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title></title>
+		<script src="./lib/vue-2.4.0.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			body {
+				background-color: #008B8B;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<!-- <p :style="{color:'red'}">123456789</p> -->
+			<p :style="obj1">123456789</p>
+			<p :style="[boj1,obj2]">123456789</p>
+		</div>
+
+		<script type="text/javascript">
+			var vm = new Vue({
+				el: '#app',
+				data: {
+					obj1: {
+						color: 'red'
+					},
+					obj2: {'font-weight':'200'}
+				},
+				methods: {}
+			});
+		</script>
+	</body>
+</html>
