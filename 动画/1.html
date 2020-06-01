@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title></title>
+		<script src="./lib/vue-2.4.0.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			body {
+				background-color: #008B8B;
+			}
+
+			.v-enter,
+			.v-leave-to {
+				opacity: 0;
+				transform: translateX(100px);
+			}
+
+			.my-enter,
+			.my-leave-to {
+				opacity: 0;
+				transform: translateY(100px);
+			}
+
+			.v-enter-active,
+			.v-leave-active {
+				transition: all 1s ease;
+				/* transform: translateX(-100px); */
+			}
+
+			.my-enter-active,
+			.my-leave-active {
+				transition: all 1s ease;
+				/* transform: translateX(-100px); */
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<button type="button" @click="flag=!flag">000</button>
+			<transition>
+				<h1 v-if="flag">0000000000</h1>
+			</transition>
+			<hr>
+			<button type="button" @click="flag2=!flag2">000</button>
+			<transition name="my">
+				<h1 v-if="flag2">0000000000</h1>
+			</transition>
+		</div>
+
+		<script type="text/javascript">
+			var vm = new Vue({
+				el: '#app',
+				data: {
+					flag: false,
+					flag2: false
+				},
+				methods: {}
+			});
+		</script>
+	</body>
+</html>

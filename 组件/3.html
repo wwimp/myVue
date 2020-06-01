@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title></title>
+		<script src="./lib/vue-2.4.0.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			body {
+				background-color: #008B8B;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<mycom3></mycom3>
+			<!-- <login></login> -->
+		</div>
+		<div id="app2">
+			<mycom3></mycom3>
+			<login></login>
+		</div>
+
+		<template id="tmpl">
+			<div>
+				<h1>111111111</h1>
+				<h4>444444444</h4>
+			</div>
+		</template>
+		<template id="tmpl2">
+			<h1>这是私有的 login 组件</h1>
+		</template>
+		<script type="text/javascript">
+			Vue.component('mycom3', {
+				template: '#tmpl'
+			})
+			var vm = new Vue({
+				el: '#app',
+				data: {},
+				methods: {}
+			});
+			var vm = new Vue({
+				el: '#app2',
+				data: {},
+				methods: {},
+				filters: {},
+				directives: {},
+				components: { // 定义实例内部私有组件的
+					login: {
+						template: '#tmpl2'
+					}
+				},
+
+				beforeCreate() {},
+				created() {},
+				beforeMount() {},
+				mounted() {},
+				beforeUpdate() {},
+				updated() {},
+				beforeDestroy() {},
+				destroyed() {}
+			});
+		</script>
+	</body>
+</html>

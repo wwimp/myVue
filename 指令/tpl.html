@@ -14,14 +14,34 @@
 	</head>
 	<body>
 		<div id="app">
-			
+
 		</div>
-			
+
 		<script type="text/javascript">
+			Vue.component('mycom', {
+				template: '',
+				data: function() {
+					return {
+						msg: ''
+					}
+				}
+			})
 			var vm = new Vue({
 				el: '#app',
 				data: {},
-				methods: {}
+				methods: {},
+				filters: {},
+				directives: {},
+				components: {},
+
+				beforeCreate() {},
+				created() {},
+				beforeMount() {},
+				mounted() {},
+				beforeUpdate() {},
+				updated() {},
+				beforeDestroy() {},
+				destroyed() {}
 			});
 		</script>
 	</body>

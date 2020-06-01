@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title></title>
+		<script src="./lib/vue-2.4.0.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			body {
+				background-color: #008B8B;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<mycom></mycom>
+		</div>
+		<template id="aaa">
+			<div>
+				<h3>00000</h3>
+				<input type="button" value="00" @click="add" />
+				<h3>{{msg}}</h3>
+			</div>
+		</template>
+		<script type="text/javascript">
+			Vue.component('mycom', {
+				template: '#aaa',
+				data: function() {
+					return {
+						msg: 1
+					}
+				},
+				methods: {
+					add() {
+						this.msg++
+					}
+				}
+			})
+			var vm = new Vue({
+				el: '#app',
+				data: {},
+				methods: {},
+				filters: {},
+				directives: {},
+				components: {},
+
+				beforeCreate() {},
+				created() {},
+				beforeMount() {},
+				mounted() {},
+				beforeUpdate() {},
+				updated() {},
+				beforeDestroy() {},
+				destroyed() {}
+			});
+		</script>
+	</body>
+</html>
