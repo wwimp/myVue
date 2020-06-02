@@ -10,43 +10,25 @@
 			body {
 				background-color: #008B8B;
 			}
-
-			.v-enter,
-			.v-leave-to {
-				opacity: 0;
-				transform: translateX(150px);
-			}
-
-			.v-enter-active,
-			.v-leave-active {
-				transition: all 0.5s ease;
-			}
 		</style>
 	</head>
 	<body>
 		<div id="app">
-			<button type="button" @click="mycom='mycom1'">登录</button>
-			<button type="button" @click="mycom='mycom2'">注册</button>
 
-			<transition mode="out-in">
-			<!-- <transition mode="in-out"> -->
-				<component :is="mycom"></component>
-			</transition>
-			<!-- component,  template,  transition,  transitionGroup  -->
 		</div>
 
 		<script type="text/javascript">
-			Vue.component('mycom1', {
-				template: '<h1>我是登录</h1>',
-			})
-			Vue.component('mycom2', {
-				template: '<h1>我是注册</h1>',
+			Vue.component('mycom', {
+				template: '',
+				data: function() {
+					return {
+						msg: ''
+					}
+				}
 			})
 			var vm = new Vue({
 				el: '#app',
-				data: {
-					mycom: 'mycom1'
-				},
+				data: {},
 				methods: {},
 				filters: {},
 				directives: {},

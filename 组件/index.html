@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title></title>
+		<script src="./lib/vue-2.4.0.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="./lib/bootstrap-3.3.7.css" />
+		<style type="text/css">
+			body {
+				background-color: #008B8B;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<mycom @fun="loadComments"></mycom>
+			<ul class="list-group">
+				<li class="list-group-item" v-for="item in list"><span class="badge">评论人：{{item.user}}</span>{{item.content}}</li>
+			</ul>
+		</div>
+		<template id="tpl">
+			<div class="form-group"><br>
+				评论人：<br>
+				<input type="text" class="form-control" v-model="user" /><br>
+				评论内容：<br>
+				<textarea class="form-control" v-model="content"></textarea><br>
+				<input type="button" class="btn btn-primary" value="00" @click="btn" />
+			</div>
+		</template>
+		<script type="text/javascript">
+			Vue.component('mycom', {
+				template: '#tpl',
+				data: function() {
+					return {
+						user: '',
+						content: ''
+					}
+				},
+				methods: {
+					btn() {
+						var comment = {
+							id: Date.now(),
+							user: this.user,
+							content: this.content
+						}
+						var list = JSON.parse(localStorage.getItem('cmts') || '[]')
+						list.unshift(comment)
+						localStorage.setItem('cmts', JSON.stringify(list))
+						this.user = this.content = ''
+						this.$emit('fun')
+					}
+				}
+			})
+			var vm = new Vue({
+				el: '#app',
+				data: {
+					user: '',
+					content: '',
+					list: [{
+							id: Date.now(),
+							user: '李白',
+							content: '天生我材必有用'
+						},
+						{
+							id: Date.now(),
+							user: '江小白',
+							content: '劝君更尽一杯酒'
+						},
+						{
+							id: Date.now(),
+							user: '小马',
+							content: '我姓马， 风吹草低见牛羊的马'
+						}
+					]
+				},
+				methods: {
+					loadComments() {
+						var list = JSON.parse(localStorage.getItem('cmts') || '[]')
+						this.list = list
+					}
+				},
+				filters: {},
+				directives: {},
+				components: {
+
+				},
+
+				beforeCreate() {},
+				created() {
+					this.loadComments();
+				},
+				beforeMount() {},
+				mounted() {},
+				beforeUpdate() {},
+				updated() {},
+				beforeDestroy() {},
+				destroyed() {}
+			});
+		</script>
+	</body>
+</html>

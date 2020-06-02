@@ -10,47 +10,55 @@
 			body {
 				background-color: #008B8B;
 			}
-
-			.v-enter,
-			.v-leave-to {
-				opacity: 0;
-				transform: translateX(150px);
-			}
-
-			.v-enter-active,
-			.v-leave-active {
-				transition: all 0.5s ease;
-			}
 		</style>
 	</head>
 	<body>
 		<div id="app">
-			<button type="button" @click="mycom='mycom1'">登录</button>
-			<button type="button" @click="mycom='mycom2'">注册</button>
-
-			<transition mode="out-in">
-			<!-- <transition mode="in-out"> -->
-				<component :is="mycom"></component>
-			</transition>
-			<!-- component,  template,  transition,  transitionGroup  -->
+			<login></login>
+			<com1 :parentmsg="msg"></com1>
 		</div>
-
 		<script type="text/javascript">
-			Vue.component('mycom1', {
-				template: '<h1>我是登录</h1>',
-			})
-			Vue.component('mycom2', {
-				template: '<h1>我是注册</h1>',
+			var login = {
+				template: '<h1>1234</h1>'
+			}
+			// Vue.component('mylogin', login)
+			Vue.component('mycom', {
+				template: '',
+				data: function() {
+					return {
+						msg: ''
+					}
+				}
 			})
 			var vm = new Vue({
 				el: '#app',
 				data: {
-					mycom: 'mycom1'
+					msg: '123 啊-父组件中的数据'
 				},
 				methods: {},
 				filters: {},
 				directives: {},
-				components: {},
+				components: {
+					login,
+					com1: {
+						data() {
+							return {
+								title: '123',
+								content: 'qqq'
+							}
+						},
+						template: '<h1 @click="change">这是子组件 --- {{ parentmsg }}</h1>',
+						props: ['parentmsg'],
+						directives: {},
+						filters: {},
+						components: {},
+						methods: {
+							change() {
+								this.parentmsg = '被修改了(但是会报错)'
+							}
+						}
+					}
+				},
 
 				beforeCreate() {},
 				created() {},

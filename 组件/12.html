@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title></title>
+		<script src="./lib/vue-2.4.0.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="./lib/bootstrap-3.3.7.css" />
+		<style type="text/css">
+			body {
+				background-color: #008B8B;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<button type="button" @click="get" class="btn btn-primary" ref="btn">get</button>
+			<h1 id="h1" ref="h1">0000000000</h1>
+			<login ref="login"></login>
+			<mycom></mycom>
+		</div>
+		<template id="tpl">
+			<div>
+				<h1>12321</h1>
+			</div>
+		</template>
+		<script type="text/javascript">
+			var login = {
+				template: '#tpl',
+				data() {
+					return {
+						msg: '123'
+					}
+				},
+				methods: {
+					con() {
+						console.log(321)
+					}
+				}
+			}
+			Vue.component('mycom', {
+				template: '<h1>dadadada</h1>',
+				data: function() {
+					return {
+						msg: ''
+					}
+				}
+			})
+			var vm = new Vue({
+				el: '#app',
+				data: {},
+				methods: {
+					get() {
+						// console.log(document.getElementById('h1').innerText)
+						console.log(this.$refs.h1.innerText)
+						console.log(this.$refs.login.msg)
+						this.$refs.login.con()
+					}
+				},
+				filters: {},
+				directives: {},
+				components: {
+					login
+				},
+
+				beforeCreate() {},
+				created() {},
+				beforeMount() {},
+				mounted() {},
+				beforeUpdate() {},
+				updated() {},
+				beforeDestroy() {},
+				destroyed() {}
+			});
+		</script>
+	</body>
+</html>

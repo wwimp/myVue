@@ -10,47 +10,60 @@
 			body {
 				background-color: #008B8B;
 			}
-
-			.v-enter,
-			.v-leave-to {
-				opacity: 0;
-				transform: translateX(150px);
-			}
-
-			.v-enter-active,
-			.v-leave-active {
-				transition: all 0.5s ease;
-			}
 		</style>
 	</head>
 	<body>
 		<div id="app">
-			<button type="button" @click="mycom='mycom1'">登录</button>
-			<button type="button" @click="mycom='mycom2'">注册</button>
-
-			<transition mode="out-in">
-			<!-- <transition mode="in-out"> -->
-				<component :is="mycom"></component>
-			</transition>
-			<!-- component,  template,  transition,  transitionGroup  -->
+			<com2 @func="show"></com2>
 		</div>
 
+		<template id="tmpl">
+			<div>
+				<h1>这是 子组件</h1>
+				<input type="button" value="这是子组件中的按钮 - 点击它，触发 父组件传递过来的 func 方法" @click="myclick">
+			</div>
+		</template>
+
 		<script type="text/javascript">
-			Vue.component('mycom1', {
-				template: '<h1>我是登录</h1>',
-			})
-			Vue.component('mycom2', {
-				template: '<h1>我是注册</h1>',
+			var com2 = {
+				template: '#tmpl',
+				data() {
+					return {
+						sonmsg: {
+							name: '小头儿子',
+							age: 6
+						}
+					}
+				},
+				methods: {
+					myclick() {
+						this.$emit('func', this.sonmsg)
+					}
+				}
+			}
+			Vue.component('mycom', {
+				template: '',
+				data: function() {
+					return {
+						msg: ''
+					}
+				}
 			})
 			var vm = new Vue({
 				el: '#app',
 				data: {
-					mycom: 'mycom1'
+					datamsgFormSon: null
 				},
-				methods: {},
+				methods: {
+					show(data) {
+						this.datamsgFormSon = data
+					}
+				},
 				filters: {},
 				directives: {},
-				components: {},
+				components: {
+					com2
+				},
 
 				beforeCreate() {},
 				created() {},

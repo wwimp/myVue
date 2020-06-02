@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title></title>
+		<script src="./lib/vue-2.4.0.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="./lib/bootstrap-3.3.7.css" />
+		<style type="text/css">
+			body {
+				background-color: #008B8B;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<div><br>
+				发表人：<br>
+				<input type="text" v-model="user" /><br>
+				发表内容：<br>
+				<textarea rows="" cols="" v-model="content"></textarea><br>
+				<button type="button" @click="add">提交</button><br>
+				<hr>
+			</div>
+			<ul>
+				<li v-for="(item,i) in list" :key="item.i">发表内容：{{item.user}} ------------------------ 发表人：{{item.content}}</li>
+			</ul>
+		</div>
+		<script type="text/javascript">
+			Vue.component('mycom', {
+				template: '',
+				data: function() {
+					return {
+						msg: ''
+					}
+				}
+			})
+			var vm = new Vue({
+				el: '#app',
+				data: {
+					user: '',
+					content: '',
+					list: [{
+						id: Date.now(),
+						user: 'aha',
+						content: 'ahahahahaha'
+					}, {
+						id: Date.now(),
+						user: 'aha',
+						content: 'ahahahahaha'
+					}, {
+						id: Date.now(),
+						user: 'aha',
+						content: 'ahahahahaha'
+					}, {
+						id: Date.now(),
+						user: 'aha',
+						content: 'ahahahahaha'
+					}]
+				},
+				methods: {
+					add() {
+						this.list.push({
+							user: this.user,
+							content: this.content
+						})
+					}
+				},
+				filters: {},
+				directives: {},
+				components: {},
+
+				beforeCreate() {},
+				created() {},
+				beforeMount() {},
+				mounted() {},
+				beforeUpdate() {},
+				updated() {},
+				beforeDestroy() {},
+				destroyed() {}
+			});
+		</script>
+	</body>
+</html>
