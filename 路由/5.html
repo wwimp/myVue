@@ -16,10 +16,33 @@
 	</head>
 	<body>
 		<div id="app">
-
+			<son :father="msg" @fun="get"></son>
+			<h3>{{msgSon}}</h3>
 		</div>
-
+		<template id="son">
+			<div>
+				<h1>啊哈！子组件！</h1>
+				<h2>{{father}}</h2>
+				<input type="button" value="000" @click="send" />
+			</div>
+		</template>
 		<script type="text/javascript">
+			var son = {
+				template: '#son',
+				props: ['father'],
+				data() {
+					return {
+						msg: 'ahh,子组件！'
+					}
+				},
+				methods: {
+					send() {
+						this.$emit('fun', this.msg)
+					}
+				},
+
+			}
+
 			Vue.component('mycom', {
 				template: '',
 				data: function() {
@@ -30,11 +53,20 @@
 			})
 			var vm = new Vue({
 				el: '#app',
-				data: {},
-				methods: {},
+				data: {
+					msg: 'ahaha,父组件！',
+					msgSon: ''
+				},
+				methods: {
+					get(data) {
+						this.msgSon = data
+					}
+				},
 				filters: {},
 				directives: {},
-				components: {},
+				components: {
+					son
+				},
 
 				beforeCreate() {},
 				created() {},

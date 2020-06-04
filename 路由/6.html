@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title></title>
+		<script src="./lib/vue-2.4.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="./lib/vue-router-3.0.1.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			body {
+				background-color: #008B8B;
+				background-color: #08B;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<router-link to="/login">登录</router-link>
+			<router-link to="/register">注册</router-link>
+			<router-view></router-view>
+		</div>
+		<template id="login">
+			<div>
+				<h1>login</h1>
+			</div>
+		</template>
+		<template id="register">
+			<div>
+				<h1>register</h1>
+			</div>
+		</template>
+		<script type="text/javascript">
+			var login = {
+				template: '#login'
+			}
+			var register = {
+				template: '#register'
+			}
+			var router = new VueRouter({
+				routes: [{
+						path: '/',
+						redirect: '/login'
+					},
+					{
+						path: '/login',
+						component: login
+					},
+					{
+						path: '/register',
+						component: register
+					}
+				]
+			})
+			Vue.component('mycom', {
+				template: '',
+				data: function() {
+					return {
+						msg: ''
+					}
+				}
+			})
+			var vm = new Vue({
+				el: '#app',
+				data: {},
+				methods: {},
+				filters: {},
+				directives: {},
+				components: {},
+				router,
+
+				beforeCreate() {},
+				created() {},
+				beforeMount() {},
+				mounted() {},
+				beforeUpdate() {},
+				updated() {},
+				beforeDestroy() {},
+				destroyed() {}
+			});
+		</script>
+	</body>
+</html>
