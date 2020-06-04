@@ -10,81 +10,53 @@
 		<style type="text/css">
 			body {
 				background-color: #008B8B;
-			}
-
-			.router-link-active {
-				color: skyblue;
-				font-weight: 800;
-				font-style: italic;
-				text-decoration: underline;
-				background-color: lightgoldenrodyellow
-			}
-
-			.font {
-				font-size: 60px;
-			}
-
-			h1 {
-				font-size: 200px
-			}
-
-			.v-enter,
-			.v-leave-to {
-				opacity: 0;
-				transform: translateX(140px);
-			}
-
-			.v-enter-active,
-			.v-leave-active {
-				transition: all 0.5s ease;
+				/* background-color: #08B; */
 			}
 		</style>
 	</head>
 	<body>
 		<div id="app">
-			<!-- <a href="#/login">登录</a>
-			<a href="#/register">注册</a> -->
-			<router-link to="/login" tag="span" class="font">登录</router-link>
-			<router-link to="/register" tag="span" class="font">注册</router-link>
-			<transition mode="out-in">
-				<router-view></router-view>
-			</transition>
+			<router-link to="/home">首页</router-link>
+			<router-view></router-view>
 		</div>
-		<template id="login">
+		<template id="home">
 			<div>
-				<h1>登录</h1>
+				<h1>这里是首页</h1>
+				<router-link to="/home/login">登录</router-link>
+				<router-link to="/home/register">注册</router-link>
+				<router-view></router-view>
 			</div>
+		</template>
+		<template id="login">
+			<div>登录</div>
 		</template>
 		<template id="register">
-			<div>
-				<h1>注册</h1>
-			</div>
+			<div>注册</div>
 		</template>
 		<script type="text/javascript">
+			var home = {
+				template: '#home'
+			}
 			var login = {
 				template: '#login'
 			}
 			var register = {
 				template: '#register'
 			}
-
-			var routerObj = new VueRouter({
-
-				// routes: [{
-				// 	path: '/',
-				// 	component: login
-				// },	
+			var router = new VueRouter({
 				routes: [{
-					path: '/',
-					redirect: '/login'
-				}, {
-					path: '/login',
-					component: login
-				}, {
-					path: '/register',
-					component: register
+					path: '/home',
+					component: home,
+					children: [{
+						path: 'login',
+						component: login
+					}, {
+						path: 'register',
+						component: register
+					}]
 				}]
 			})
+
 
 			Vue.component('mycom', {
 				template: '',
@@ -101,7 +73,7 @@
 				filters: {},
 				directives: {},
 				components: {},
-				router: routerObj,
+				router,
 
 				beforeCreate() {},
 				created() {},

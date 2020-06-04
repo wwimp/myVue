@@ -8,81 +8,88 @@
 		<script src="./lib/vue-2.4.0.js" type="text/javascript" charset="utf-8"></script>
 		<script src="./lib/vue-router-3.0.1.js" type="text/javascript" charset="utf-8"></script>
 		<style type="text/css">
+			html,
 			body {
 				background-color: #008B8B;
-			}
-
-			.router-link-active {
-				color: skyblue;
-				font-weight: 800;
-				font-style: italic;
-				text-decoration: underline;
-				background-color: lightgoldenrodyellow
-			}
-
-			.font {
-				font-size: 60px;
+				background-color: #08B;
+				text-align: center;
+				margin: 0;
+				padding: 0;
 			}
 
 			h1 {
-				font-size: 200px
+				margin: 0;
+				padding: 0;
 			}
 
-			.v-enter,
-			.v-leave-to {
-				opacity: 0;
-				transform: translateX(140px);
+			.container {
+				/* display: flex; */
+				height: 900px;
+				line-height: 900px;
 			}
 
-			.v-enter-active,
-			.v-leave-active {
-				transition: all 0.5s ease;
+			.head {
+				background-color: #008B8B;
+				height: 80px;
+				line-height: 80px;
+			}
+
+			.left {
+				background-color: #00bb88;
+				/* flex: 2; */
+				width: 20%;
+				float: left;
+			}
+
+			.main {
+				background-color: #88bb00;
+				/* flex: 8; */
+				width: 80%;
+				float: left;
 			}
 		</style>
 	</head>
 	<body>
 		<div id="app">
-			<!-- <a href="#/login">登录</a>
-			<a href="#/register">注册</a> -->
-			<router-link to="/login" tag="span" class="font">登录</router-link>
-			<router-link to="/register" tag="span" class="font">注册</router-link>
-			<transition mode="out-in">
-				<router-view></router-view>
-			</transition>
+			<router-view></router-view>
+			<div class="container">
+				<router-view name="left"></router-view>
+				<router-view name="main"></router-view>
+			</div>
 		</div>
-		<template id="login">
+		<template id="head">
 			<div>
-				<h1>登录</h1>
+				<h1 class="head">head</h1>
 			</div>
 		</template>
-		<template id="register">
+		<template id="left">
 			<div>
-				<h1>注册</h1>
+				<h1 class="left">left</h1>
+			</div>
+		</template>
+		<template id="main">
+			<div>
+				<h1 class="main">main</h1>
 			</div>
 		</template>
 		<script type="text/javascript">
-			var login = {
-				template: '#login'
+			var head = {
+				template: '#head'
 			}
-			var register = {
-				template: '#register'
+			var left = {
+				template: '#left'
 			}
-
-			var routerObj = new VueRouter({
-
-				// routes: [{
-				// 	path: '/',
-				// 	component: login
-				// },	
+			var main = {
+				template: '#main'
+			}
+			var router = new VueRouter({
 				routes: [{
 					path: '/',
-					redirect: '/login'
-				}, {
-					path: '/login',
-					component: login
-				}, {
-					path: '/register',
-					component: register
+					components: {
+						'default': head,
+						'left': left,
+						'main': main
+					}
 				}]
 			})
 
@@ -101,7 +108,7 @@
 				filters: {},
 				directives: {},
 				components: {},
-				router: routerObj,
+				router,
 
 				beforeCreate() {},
 				created() {},

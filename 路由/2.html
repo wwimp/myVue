@@ -10,45 +10,15 @@
 		<style type="text/css">
 			body {
 				background-color: #008B8B;
-			}
-
-			.router-link-active {
-				color: skyblue;
-				font-weight: 800;
-				font-style: italic;
-				text-decoration: underline;
-				background-color: lightgoldenrodyellow
-			}
-
-			.font {
-				font-size: 60px;
-			}
-
-			h1 {
-				font-size: 200px
-			}
-
-			.v-enter,
-			.v-leave-to {
-				opacity: 0;
-				transform: translateX(140px);
-			}
-
-			.v-enter-active,
-			.v-leave-active {
-				transition: all 0.5s ease;
+				background-color: #08B;
 			}
 		</style>
 	</head>
 	<body>
 		<div id="app">
-			<!-- <a href="#/login">登录</a>
-			<a href="#/register">注册</a> -->
-			<router-link to="/login" tag="span" class="font">登录</router-link>
-			<router-link to="/register" tag="span" class="font">注册</router-link>
-			<transition mode="out-in">
-				<router-view></router-view>
-			</transition>
+			<router-link to="login?id=10" tag="span">登录</router-link>
+			<router-link to="register/20" tag="span">注册</router-link>
+			<router-view></router-view>
 		</div>
 		<template id="login">
 			<div>
@@ -62,28 +32,32 @@
 		</template>
 		<script type="text/javascript">
 			var login = {
-				template: '#login'
+				template: '#login',
+				created() {
+					console.log(this.$route)
+				}
 			}
 			var register = {
-				template: '#register'
+				template: '#register',
+				created() {
+					console.log(this.$route)
+				}
 			}
 
-			var routerObj = new VueRouter({
-
-				// routes: [{
-				// 	path: '/',
-				// 	component: login
-				// },	
-				routes: [{
-					path: '/',
-					redirect: '/login'
-				}, {
-					path: '/login',
-					component: login
-				}, {
-					path: '/register',
-					component: register
-				}]
+			var router = new VueRouter({
+				routes: [
+					// {
+					// 	path: '/',
+					// 	redirect: '/login'
+					// }, 
+					{
+						path: '/login',
+						component: login
+					}, {
+						path: '/register/:id',
+						component: register
+					}
+				]
 			})
 
 			Vue.component('mycom', {
@@ -98,10 +72,10 @@
 				el: '#app',
 				data: {},
 				methods: {},
+				router,
 				filters: {},
 				directives: {},
 				components: {},
-				router: routerObj,
 
 				beforeCreate() {},
 				created() {},
