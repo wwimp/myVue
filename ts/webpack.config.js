@@ -1,260 +1,70 @@
-// 使用node语法规范
-// 路径操作
-let path = require('path');
-// 引入插件
-let HtmlWebpackPlugin = require('html-webpack-plugin');
-// let CleanWebpackPlugin = require('clean-webpack-plugin');
-//webpack 自带的，引入webpack
-let webpack = require('webpack');
-// 抽离css的插件
-let ExtractTextWebpackPlugin = require('extract-text-webpack-plugin');
-// 分别抽离less,css等
-// let lessExtract = new ExtractTextWebpackPlugin('css/less.css');
-// let cssExtract = new ExtractTextWebpackPlugin('css/css.css');
-let lessExtract = new ExtractTextWebpackPlugin({
-	filename: 'css/less.css',
-	// disable: true
-});
-let cssExtract = new ExtractTextWebpackPlugin({
-	filename: 'css/css.css',
-	// disable: true
-});
-// 忽略打包无用样式的插件，purifycss-webpack必须用在html-plugin后面
-let PurifycssWebpack = require('purifycss-webpack');
-// 配合上面的purifycss-webpack插件使用时进行搜索的插件
-let glob = require('glob');
-// // 导入copy插件
-// let CopyWebpackPlugin = require('copy-webpack-plugin');
-// 导入vue相关插件
+// 由于 webpack 是基于Node进行构建的，所有，webpack的配置文件中，任何合法的Node代码都是支持的
+var path = require('path')
+// 在内存中，根据指定的模板页面，生成一份内存中的首页，同时自动把打包好的bundle注入到页面底部
+// 如果要配置插件，需要在导出的对象中，挂载一个 plugins 节点
+var htmlWebpackPlugin = require('html-webpack-plugin')
 let VueLoaderPlugin = require('vue-loader/lib/plugin');
 
-
-
-
+// 当以命令行形式运行 webpack 或 webpack-dev-server 的时候，工具会发现，我们并没有提供 要打包 的文件的 入口 和 出口文件，此时，他会检查项目根目录中的配置文件，并读取这个文件，就拿到了导出的这个 配置对象，然后根据这个对象，进行打包构建
 module.exports = {
-	// 默认情况下，只有一个入口文件，生成时，会把与这一个相关联的js打包在一起形成一个新的js，如果需要多入口与多出口，则需要进行配置
-	entry: './src/index.js', // 入口
-	// entry: ['./src/index.js', './src/a.js'], // 入口
-	// entry: path.join(__dirname, './src/index.js'), // 入口
-	// entry: { // 多入口
-	// 	index: './src/index.js',
-	// 	a: './src/a.js'
-	// }, // 入口
-	output: {
-		// filename: 'main.[hash:8].js',
-		// filename: 'main.js',
-		filename: '[name].js', // name 自动匹配对应的文件名
-		path: path.resolve('./dist')
-	}, // 出口
-	devServer: {
-		contentBase: './dist', // 根目录
-		port: 3000, // 端口号
-		compress: true, // 服务器压缩
-		hot: true, // 热更新
-		open: true // 自动打开浏览器
-	}, // 开发服务器
-	module: {
-		rules: [
-			// {
-			// 	test: /\.css$/,
-			// 	use: ['style-loader', 'css-loader']
-			// }, 
-			// 匹配规则，从右往左
-			// {
-			// 	test: /\.css$/,
-			// 	use: [{ // 数组里套对象，这样方便传参（options）
-			// 			loader: 'style-loader',
-			// 			// options: ''
-			// 		},
-			// 		{
-			// 			loader: 'css-loader',
-			// 			// options: ''
-			// 		}
-			// 	]
-			// },
-			// {
-			// 	test: /\.less$/,
-			// 	use: [{ // 数组里套对象，这样方便传参（options）
-			// 			loader: 'style-loader',
-			// 			// options: ''
-			// 		},
-			// 		{
-			// 			loader: 'css-loader',
-			// 			// options: ''
-			// 		},
-			// 		{
-			// 			loader: 'less-loader',
-			// 			// options: ''
-			// 		}
-			// 	]
-			// },
-			// {
-			// 	test: /\.css$/,
-			// 	// 抽离css
-			// 	use: ExtractTextWebpackPlugin.extract({
-			// 		use: [ // 数组里套对象，这样方便传参（options）
-			// 			{
-			// 				loader: 'css-loader',
-			// 				// options: ''
-			// 			}
-			// 		]
-			// 	})
+	entry: path.join(__dirname, './src/main.js'), // 入口文件
+	output: { // 指定输出选项
+		path: path.join(__dirname, './dist'), // 输出路径
+		filename: 'bundle.js' // 指定输出文件的名称
+	},
+	plugins: [ // 所有webpack  插件的配置节点
+		new VueLoaderPlugin(),
+		new htmlWebpackPlugin({
+			template: path.join(__dirname, './src/index.html'), // 指定模板文件路径
+			filename: 'index.html' // 设置生成的内存页面的名称
+		}),
 
-			// },
-			// {
-			// 	test: /\.less$/,
-			// 	use: ExtractTextWebpackPlugin.extract({
-			// 		use: [ // 数组里套对象，这样方便传参（options）
-			// 			{
-			// 				loader: 'css-loader',
-			// 				// options: ''
-			// 			},
-			// 			{
-			// 				loader: 'less-loader',
-			// 				// options: ''
-			// 			}
-			// 		]
-			// 	})
-			// },
+	],
+	module: { // 配置所有第三方loader 模块的
+		rules: [ // 第三方模块的匹配规则
 			{
 				test: /\.css$/,
-				// 抽离css
-				use: cssExtract.extract({
-					fallback: 'style-loader', // 上面disable为true时，我们仍任希望能够热更新(开发)，所以这样设置，把插入方式由link换回style
-					use: [ // 数组里套对象，这样方便传参（options）
-						{
-							loader: 'css-loader',
-							// options: ''
-						},
-						// 自动加前缀的相关操作
-						{
-							loader: 'postcss-loader'
-						}
-					]
-				})
-
-			},
+				use: ['style-loader', 'css-loader']
+			}, // 处理 CSS 文件的 loader
 			{
 				test: /\.less$/,
-				use: lessExtract.extract({
-					fallback: 'style-loader', // 上面disable为true时，我们仍任希望能够热更新（开发），所以这样设置，把插入方式由link换回style
-					use: [ // 数组里套对象，这样方便传参（options）
-						{
-							loader: 'css-loader',
-							// options: ''
-						},
-						{
-							loader: 'less-loader',
-							// options: ''
-						},
-						// 自动加前缀的相关操作 
-						{
-							loader: 'postcss-loader'
-						}
-					]
-				})
-			},
-			///////
-
+				use: ['style-loader', 'css-loader', 'less-loader']
+			}, // 处理 less 文件的 loader
+			{
+				test: /\.scss$/,
+				use: ['style-loader', 'css-loader', 'sass-loader']
+			}, // 处理 scss 文件的 loader
+			{
+				test: /\.(jpg|png|gif|bmp|jpeg)$/,
+				use: 'url-loader?limit=7631&name=[hash:8]-[name].[ext]'
+			}, // 处理 图片路径的 loader
+			// limit 给定的值，是图片的大小，单位是 byte， 如果我们引用的 图片，大于或等于给定的 limit值，则不会被转为base64格式的字符串， 如果 图片小于给定的 limit 值，则会被转为 base64的字符串
+			{
+				test: /\.(ttf|eot|svg|woff|woff2)$/,
+				use: 'url-loader'
+			}, // 处理 字体文件的 loader 
+			{
+				test: /\.js$/,
+				use: 'babel-loader',
+				exclude: /node_modules/
+			}, // 配置 Babel 来转换高级的ES语法
 			{
 				test: /\.vue$/,
-				loader: 'vue-loader'
-			},
-			// // 它会应用到普通的 `.js` 文件
-			// // 以及 `.vue` 文件中的 `<script>` 块
-			// // {
-			// // 	test: /\.js$/,
-			// // 	loader: 'babel-loader'
-			// // },
-			// // 它会应用到普通的 `.css` 文件
-			// // 以及 `.vue` 文件中的 `<style>` 块
-			// {
-			// 	test: /\.css$/,
-			// 	use: [
-			// 		'vue-style-loader',
-			// 		'css-loader'
-			// 	]
-			// }
+				use: 'vue-loader'
+			}, // 处理 .vue 文件的 loader
 
-
-			//////
 		]
-	}, // 模块配置
-	plugins: [
-		// vue插件
-		new VueLoaderPlugin(),
-
-
-		// // copy插件(不知道啥问题，会报错，不用了)
-		// new CopyWebpackPlugin(
-		// 	[{
-		// 		from: './src/doc',
-		// 		to: 'public'
-		// 	}, ],
-		// ),
-		// 抽离css
-		// new ExtractTextWebpackPlugin({
-		// 	filename: 'css/index.css'
-		// }),
-		lessExtract,
-		cssExtract,
-		// 热更新
-		new webpack.HotModuleReplacementPlugin(),
-		// 清除缓存（有问题，懒得弄了）
-		// new CleanWebpackPlugin(['./dist']),
-		// 打包html的插件
-		new HtmlWebpackPlugin({ // new一个，只能导出一个，需要导出多个，则继续new
-			// 生成HTML的名字
-			// filename: 'index.html',
-			// chunks: ['index'], // 生成时，指定要引用的js
-			// html 模板路径
-			template: './src/index.html',
-			// 某个属性title
-			title: '俺是标题',
-			// 压缩代码用的
-			// minify: {
-			// 	// 去除引号
-			// 	removeAttributeQuotes: true,
-			// 	// 去除空白
-			// 	collapseWhitespace: true
-			// },
-			// // 增加hash，方便进行清除缓存等操作
-			// hash: true
-		}),
-		// new HtmlWebpackPlugin({ // new一个，只能导出一个，需要导出多个，则继续new
-		// 	// 生成HTML的名字
-		// 	filename: 'index2.html',
-		// 	chunks: ['a'], // 生成时，指定要引用的js
-		// 	// html 模板路径
-		// 	template: './src/index.html',
-		// 	// 某个属性title
-		// 	title: '俺是标题',
-		// 	// 压缩代码用的
-		// 	// minify: {
-		// 	// 	// 去除引号
-		// 	// 	removeAttributeQuotes: true,
-		// 	// 	// 去除空白
-		// 	// 	collapseWhitespace: true
-		// 	// },
-		// 	// // 增加hash，方便进行清除缓存等操作
-		// 	// hash: true
-		// }),
-
-		// 剔除无用样式的插件
-		new PurifycssWebpack({
-			paths: glob.sync(path.resolve('src/*.html'))
-		})
-
-
-
-	], // 插件
-	mode: 'development', // 模式，设置为开发模式（可更改）(默认为production生产环境)
-	resolve: {}, // 配置解析
+	},
+	resolve: {
+		alias: { // 修改 Vue 被导入时候的包的路径
+			// "vue$": "vue/dist/vue.js"
+		}
+	},
+	// plugins: [
+	//    new VueLoaderPlugin(),
+	//    // define global variables
+	//    new webpack.DefinePlugin({
+	//      PRODUCTION: JSON.stringify(isProduction)
+	//    })
+	//  ]
 }
-// 1.在webpack中配置开发服务器 webpack-dev-server
-// 2.webpack插件 
-// 2.1将html打包到dist下可以自动引入生产的js
-
-
-// 1.抽离样式，抽离到一个css文件中，通过css文件的方式来引入
-// 插件：npm i extract-text-webpack-plugin@next (这个插件是webpack3时的，所以加上@next表示webpack4用) mini-css-extract-plugin (webpack新提供的，有bug??) -D

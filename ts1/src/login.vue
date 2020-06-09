@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<h1>我是login.vue里的h1</h1>
+	    <h1>使用.vue 定义出来的组件</h1>
 	</div>
 </template>
 
